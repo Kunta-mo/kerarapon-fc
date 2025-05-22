@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Oswald', sans-serif;
+  background-color: #000;
+  color: #ccc;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px;
+  background-color: #111;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;  /* stack vertically */
+  align-items: center;     /* center horizontally */
+  text-align: center;
+}
+
+.logo img {
+  height: 120px;
+  margin-top: 1px;
+}
+
+.logo h1 {
+  font-size: 28px;
+  color: #ccc;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+nav ul li a{
+  text-decoration: none;
+  color: red;
+  font-weight: bold;
+  padding: 8px 12px;
+  transition: 0.3s ease;
+  border-radius: 4px;
+}
+nav ul li a:hover {
+color: #0f0;
+box-shadow: 0 0 10px #0f0;
+}
+nav ul li a.active {
+  color: #0f0;
+  box-shadow: 0 0 10px #0f0;
+  font-weight: bold;
+  background-color: rgba(0, 255, 0, 0.1);
+  border-radius: 4px;
+}
+
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+}
+.content-section {
+  max-width: 800px;      /* Optional: limit max width for better readability */
+  margin: 0 auto;        /* Centers the section horizontally */
+  text-align: center;    /* Centers the text inside */
+  padding: 20px;
+}
+.testpic img {
+    height: auto;
+    width: 700px;
+  }
