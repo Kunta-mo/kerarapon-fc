@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kerarapon Football Club</title>
   <link rel="stylesheet" href="style.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet" />
 </head>
 <body>
+
   <header>
     <h1>KERARAPON FOOTBALL CLUB</h1>
     <div class="logo">
@@ -28,19 +26,107 @@
   </header>
 
   <main>
-    <!-- your existing sections… -->
+    <!-- Home Section -->
+    <section id="home" class="content-section">
+      <h2>Welcome to Kerarapon Football Club</h2>
+      <p>Kerarapon FC is your local football team dedicated to excellence on and off the pitch. Follow us here for the latest club news, announcements, and match highlights.</p>
+      <div class="testpic">
+        <img src="https://i.imgur.com/yoHVuWo.jpeg" alt="Team photo" />
+      </div>
+      <p>Join us in supporting our players as they compete with heart, skill, and pride!</p>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="content-section" style="display:none;">
+      <h2><u>Gallery</u></h2>
+      <p>Enjoy moments captured from our recent matches and community events.</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <!-- Insert image thumbnails here -->
+      </div>
+      <p><em>Note: Replace image URLs with actual photos when available.</em></p>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="content-section" style="display:none;">
+      <h2><u>Our Team</u></h2>
+      <p>Our squad is made up of passionate and talented players from the community, backed by a professional coaching team committed to growth and teamwork.</p>
+      <ul>
+        <li><strong>Christopher Likare</strong> – Captain & Midfielder</li>
+        <li><strong>Elvis Shivachi</strong> – Goalkeeper</li>
+        <li><strong>Jeremy Gisero</strong> – Goalkeeper</li>
+        <li><strong>Gerrad Natala</strong> – Defender</li>
+        <li><strong>Mark Leshan</strong> – Defender</li>
+        <li><strong>Caleb Nyabuto</strong> – Defender</li>
+        <li><strong>Dennis Lekumo</strong> – Defender</li>
+        <li><strong>Samuel Sayunka</strong> – Midfielder</li>
+        <li><strong>Francis Pulei</strong> – Midfielder</li>
+        <li><strong>Ismail Waithaka</strong> – Midfielder</li>
+        <li><strong>Maxwell Onyango</strong> – Midfielder</li>
+        <li><strong>Baron Asirigwa</strong> – Forward</li>
+        <li><strong>Eugene Odhiambo</strong> – Forward</li>
+        <li><strong>William Mumo</strong> – Coach</li>
+      </ul>
+    </section>
+
+    <!-- Fixtures Section -->
+    <section id="fixtures" class="content-section" style="display:none;">
+      <h2><u>Fixtures</u></h2>
+      <p>Upcoming Fixtures:</p>
+      <table border="1" cellpadding="8" cellspacing="0" style="width:100%; color:#ccc;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Opponent</th>
+            <th>Venue</th>
+            <th>Time</th>
+            <th>Results</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>June 8, 2025</td>
+            <td>—</td>
+            <td>Karinde Football Grounds</td>
+            <td>10:00 AM</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="content-section" style="display:none;">
+      <h2><u>Talk To Us</u></h2>
+      <p>If you have any questions, sponsorship opportunities, or just want to say hello, get in touch with us!</p>
+      <ul>
+        <li>Email: info@keraraponfc.com</li>
+        <li>Phone: +254 700 123 456</li>
+        <li>Address: Kerarapon Stadium, Nairobi, Kenya</li>
+      </ul>
+      <form style="margin-top: 20px;">
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" required /><br /><br />
+        <label for="email">Email:</label><br />
+        <input type="email" id="email" name="email" required /><br /><br />
+        <label for="message">Message:</label><br />
+        <textarea id="message" name="message" rows="5" required></textarea><br /><br />
+        <button type="submit" disabled>Send Message (not functional yet)</button>
+      </form>
+    </section>
+
+    <!-- Chatbot Section -->
+    <section id="chat" class="content-section" style="margin-top: 40px;">
+      <h2><u>Chat With CoachBot</u></h2>
+      <div id="chatbox"></div>
+      <input type="text" id="userInput" placeholder="Say something..." />
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="clearChat()">Clear Chat</button>
+    </section>
+
   </main>
 
-  <!-- Chatbot Section -->
-  <section id="chat" class="content-section" style="margin-top: 40px;">
-    <h2><u>Chat With CoachBot</u></h2>
-    <div id="chatbox"></div>
-    <input type="text" id="userInput" placeholder="Say something..." />
-    <button onclick="sendMessage()">Send</button>
-    <button onclick="clearChat()">Clear Chat</button>
-  </section>
-
-  <!-- Link to your JS -->
+  <!-- Link to external JS file -->
   <script src="script.js"></script>
+
 </body>
 </html>
