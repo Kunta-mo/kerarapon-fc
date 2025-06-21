@@ -77,17 +77,20 @@
     </section>
   </main>
 
-  <!-- Chatbot Toggle + Box -->
-  <div id="chat-toggle" onclick="toggleChat()">💬 Chat</div>
-  <div id="chatbot-container" class="hidden">
-    <div id="chatbox"></div>
-    <input type="text" id="userInput" placeholder="Say something..." />
-    <div class="chat-buttons">
-      <button onclick="sendMessage()">Send</button>
-      <button onclick="clearChat()">Clear</button>
-    </div>
-  </div>
+  <!-- CHAT TOGGLE BUTTON -->
+<button id="chat-toggle">Chat</button>
 
-  <script src="script.js"></script>
+<!-- CHATBOT CONTAINER (initially hidden) -->
+<div id="chatbot-container" style="display: none;">
+  <div id="chatbox"></div>
+  <input type="text" id="userInput" placeholder="Say something..." />
+  <div class="chat-buttons">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="clearChat()">Clear</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
