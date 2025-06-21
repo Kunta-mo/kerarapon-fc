@@ -1,3 +1,4 @@
+/* === Reset & Base === */
 * {
   margin: 0;
   padding: 0;
@@ -5,23 +6,33 @@
 }
 
 body {
-  font-family: 'Oswald', sans-serif;
-  background-color: #000;
-  color: #ccc;
+  font-family: 'Segoe UI', 'Roboto', 'Oswald', sans-serif;
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  color: #333;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* === Header & Navigation === */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px;
   background-color: #111;
+  color: #ccc;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 12px;
+  margin-bottom: 30px;
 }
 
 .logo {
   display: flex;
-  flex-direction: column;  /* stack vertically */
-  align-items: center;     /* center horizontally */
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
@@ -41,7 +52,7 @@ nav ul {
   gap: 30px;
 }
 
-nav ul li a{
+nav ul li a {
   text-decoration: none;
   color: red;
   font-weight: bold;
@@ -49,10 +60,12 @@ nav ul li a{
   transition: 0.3s ease;
   border-radius: 4px;
 }
+
 nav ul li a:hover {
-color: #0f0;
-box-shadow: 0 0 10px #0f0;
+  color: #0f0;
+  box-shadow: 0 0 10px #0f0;
 }
+
 nav ul li a.active {
   color: #0f0;
   box-shadow: 0 0 10px #0f0;
@@ -61,7 +74,7 @@ nav ul li a.active {
   border-radius: 4px;
 }
 
-
+/* === Responsive Nav === */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -73,35 +86,23 @@ nav ul li a.active {
     gap: 10px;
     margin-top: 10px;
   }
-  
 }
+
+/* === Content Section Styling === */
 .content-section {
-  max-width: 800px;      /* Optional: limit max width for better readability */
-  margin: 0 auto;        /* Centers the section horizontally */
-  text-align: center;    /* Centers the text inside */
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
   padding: 20px;
 }
+
 .testpic img {
-    height: auto;
-    width: auto;
-  }
-body {
-  font-family: 'Segoe UI', 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #e0eafc, #cfdef3);
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: auto;
+  width: auto;
+  max-width: 100%;
 }
 
-/* Title */
-h1 {
-  color: #333;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 2px #ccc;
-}
-
-/* Chatbox Container */
+/* === Chatbot Section === */
 #chatbox {
   width: 100%;
   max-width: 1000px;
@@ -114,7 +115,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Input + Button Row */
+/* Chat input + buttons */
 input[type="text"] {
   width: 60%;
   padding: 12px;
@@ -141,17 +142,47 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Message Styling */
-.user-message {
-  color: #007bff;
-  text-align: right;
+/* Chat messages */
+.user-message, .bot-message {
+  max-width: 75%;
+  padding: 10px 16px;
+  border-radius: 18px;
+  display: inline-block;
+  margin: 8px 0;
+  line-height: 1.4;
   font-weight: bold;
-  margin-bottom: 10px;
+}
+
+.user-message {
+  background-color: #d0e7ff;
+  color: #003366;
+  float: right;
+  clear: both;
+  text-align: right;
 }
 
 .bot-message {
-  color: #28a745;
+  background-color: #dcf5dc;
+  color: #145c2d;
+  float: left;
+  clear: both;
   text-align: left;
-  font-weight: bold;
-  margin-bottom: 10px;
+}
+
+/* === Chat Responsive === */
+@media (max-width: 600px) {
+  input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  #chatbox {
+    height: 300px;
+  }
 }
