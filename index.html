@@ -5,19 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kerarapon Football Club</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet" />
-  <style>
-    /* Add any additional styling here */
-  </style>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
   <header>
-
-    <h1>KERARAPON FOOTBALL CLUB.</h1>
+    <h1>KERARAPON FOOTBALL CLUB</h1>
     <div class="logo">
       <img src="https://i.imgur.com/v8FcYqn.jpeg" alt="Kerarapon FC Logo" />
     </div>
-
     <nav>
       <ul>
         <li><a href="#" data-section="home">Home</a></li>
@@ -30,132 +28,19 @@
   </header>
 
   <main>
-    <section id="home" class="content-section">
-      <h2>Welcome to Kerarapon Football Club</h2>
-<p>Kerarapon FC is your local football team dedicated to excellence on and off the pitch. Follow us here for the latest club news, announcements, and match highlights.</p>
-   <div class="testpic">
-      <img src="https://i.imgur.com/yoHVuWo.jpeg">
-      </div>
-<p>Join us in supporting our players as they compete with heart, skill, and pride!</p>
-    </section>
-      
-   <section id="gallery" class="content-section" style="display:none;">
-       <h2> <u>Gallery</u> </h2>
-<p>Enjoy moments captured from our recent matches and community events.</p>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-  
-</div>
-<p><em>Note: Replace image URLs with actual photos when available.</em></p>
-
-      <p>View photos and videos from matches and events.</p>
-    </section>
-
-     
-    <section id="team" class="content-section" style="display:none;">
-      <h2> <u>Our Team </u> </h2>Meet Our Team</h2>
-<p>Our squad is made up of passionate and talented players from the community, backed by a professional coaching  to growth and teamwork.</p>
-<ul>
-  <li><strong>Christopher Likare</strong> – Captain & Midfielder</li>
-  <li><strong>Elvis Shivachi</strong> – Goalkeeper</li>
-  <li><strong>Jeremy Gisero</strong> – Goalkeeper</li>
-  <li><strong>Gerrad Natala </strong> – Defender</li>
-  <li><strong>Mark Leshan</strong> - Defender</li>
-  <li><strong>Caleb Nyabuto</strong> – Defender</li>
-  <li><strong>Dennis Lekumo</strong> - Defender</li>
-  <li><strong>Samuel Sayunka</strong> -Midfielder</li> 
-  <li><strong>Francis Pulei </strong> -Midfielder</li>
-  <li><strong>Ismail Waithaka</strong> – Midfielder </li>
-  <li><strong>Maxwell Onyango</strong> – Midfielder</li>
- <li><strong>Baron Asirigwa</strong> – Forward</li>
- <li><strong>Eugene Odhiambo</strong> – Forward</li>
-
- <li><strong>William Mumo</strong> – Coach </li>
- 
-</ul>
-      <p>Meet the players and coaching staff of Kerarapon FC.</p>
-    </section>
-
-
-    <section id="fixtures" class="content-section" style="display:none;">
-      <h2> <u>Fixtures</u> </h2> <h2>Upcoming Fixtures</h2>
-<table border="1" cellpadding="8" cellspacing="0" style="width:100%; color:#ccc;">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Opponent</th>
-      <th>Venue</th>
-      <th>Time</th>
-      <th>Results</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>June 8, 2025</td>
-      <td></td>
-      <td>karinde football grounds </td>
-      <td>10:00 am</td>
-    </tr>
-  </tbody>
-</table>
-
-
-      <p>Check out our upcoming matches and results.</p>
-    </section>
-
-   
-      
-
-    <section id="contact" class="content-section" style="display:none;">
-      <h2><u>Talk To Us</u></h2>
-<p>If you have any questions, sponsorship opportunities, or just want to say hello, get in touch with us!</p>
-<ul>
-  <li>Email: info@keraraponfc.com</li>
-  <li>Phone: +254 700 123 456</li>
-  <li>Address: Kerarapon Stadium, Nairobi, Kenya</li>
-</ul>
-<form style="margin-top: 20px;">
-  <label for="name">Name:</label><br />
-  <input type="text" id="name" name="name" required style="width: 100%; max-width: 400px;"/><br /><br />
-  
-  <label for="email">Email:</label><br />
-  <input type="email" id="email" name="email" required style="width: 100%; max-width: 400px;"/><br /><br />
-  
-  <label for="message">Message:</label><br />
-  <textarea id="message" name="message" rows="5" required style="width: 100%; max-width: 400px;"></textarea><br /><br />
-  
-  <button type="submit" disabled>Send Message (not functional yet)</button>
-</form>
-
-      <p>Get in touch with the club management.</p>
-    </section>
+    <!-- your existing sections… -->
   </main>
 
-  <script>
-    const links = document.querySelectorAll('nav ul li a');
-    const sections = document.querySelectorAll('.content-section');
+  <!-- Chatbot Section -->
+  <section id="chat" class="content-section" style="margin-top: 40px;">
+    <h2><u>Chat With CoachBot</u></h2>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Say something..." />
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="clearChat()">Clear Chat</button>
+  </section>
 
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.getAttribute('data-section');
-
-        sections.forEach(section => {
-          if(section.id === target){
-            section.style.display = 'block';
-          } else {
-            section.style.display = 'none';
-          }
-        });
-      });
-    });
-  </script>
-  <h1><u>Chat with me</u></h1>
-
-<div id="chatbox"></div>
-
-<input type="text" id="userInput" placeholder="Say something..." />
-<button onclick="sendMessage()">Send</button>
-<button onclick="clearChat()">Clear Chat</button>
-
+  <!-- Link to your JS -->
+  <script src="script.js"></script>
 </body>
 </html>
