@@ -1,25 +1,31 @@
-// Wait until DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  // SECTION NAVIGATION (unchanged)
   const links = document.querySelectorAll("nav ul li a");
   const sections = document.querySelectorAll(".content-section");
   const defaultActive = document.querySelector('nav ul li a[data-section="home"]');
+
   if (defaultActive) defaultActive.classList.add("active");
+
   links.forEach(link => {
-    link.addEventListener("click", e => {
+    link.addEventListener("click", (e) => {
       e.preventDefault();
-      const target = link.dataset.section;
-      sections.forEach(s => s.style.display = s.id === target ? "block" : "none");
-      links.forEach(l => l.classList.remove("active"));
+      const target = link.getAttribute("data-section");
+
+      sections.forEach(section => {
+        section.style.display = section.id === target ? "block" : "none";
+      });
+
+      links.forEach(link => link.classList.remove("active"));
       link.classList.add("active");
     });
   });
 
-  // RESTORE CHAT HISTORY
-  const saved = localStorage.getItem("chatHistory");
-  if (saved) document.getElementById("chatbox").innerHTML = saved;
+  // Load chat history
+  const savedChat = localStorage.getItem("chatHistory");
+  if (savedChat) {
+    document.getElementById("chatbox").innerHTML = savedChat;
+  }
 
-  // GREET USER OR ASK FOR NAME
+  // Greet user
   let username = localStorage.getItem("chatUsername");
   if (!username) {
     askForName();
@@ -31,79 +37,96 @@ document.addEventListener("DOMContentLoaded", () => {
     saveChat();
   }
 
-  // ENTER KEY SUPPORT
-  const inp = document.getElementById("userInput");
-  inp.addEventListener("keydown", e => {
-    if (e.key === "Enter") sendMessage();
-  });
-
-  // Expose to window for onclick=…
-  window.sendMessage = sendMessage;
-  window.clearChat   = clearChat;
+  // Listen for Enter key
+  const input = document.getElementById("userInput");
+  if (input) {
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
+  }
 });
 
-// SEND MESSAGE
+// Toggle chatbot visibility
+function toggleChat() {
+  const bot = document.getElementById("chatbot-container");
+  bot.classList.toggle("hidden");
+}
+
+// Send message
 function sendMessage() {
   const inputField = document.getElementById("userInput");
-  const text = inputField.value.trim();
-  if (!text) return;
-
+  const userInput = inputField.value.trim();
   const chatbox = document.getElementById("chatbox");
-  // user
-  const um = document.createElement("div");
-  um.className = "user-message";
-  um.textContent = `You (${getCurrentTime()}): ${text}`;
-  // bot
-  const bm = document.createElement("div");
-  bm.className = "bot-message";
-  bm.textContent = `Bot (${getCurrentTime()}): ${generateBotReply(text)}`;
 
-  chatbox.appendChild(um);
-  chatbox.appendChild(bm);
+  if (!userInput) return;
+
+  const userMsg = document.createElement("div");
+  userMsg.className = "user-message";
+  userMsg.textContent = `You (${getCurrentTime()}): ${userInput}`;
+
+  const botMsg = document.createElement("div");
+  botMsg.className = "bot-message";
+  botMsg.textContent = `Bot (${getCurrentTime()}): ${generateBotReply(userInput)}`;
+
+  chatbox.appendChild(userMsg);
+  chatbox.appendChild(botMsg);
   inputField.value = "";
+
   saveChat();
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// CLEAR CHAT
+// Bot replies
+function generateBotReply(input) {
+  input = input.toLowerCase();
+
+  if (input.includes("hello")) return "Hi there!";
+  if (input.includes("how are you")) return "I'm just code, but I'm running fine!";
+  if (input.includes("your name")) return "I'm Ace's simple chatbot!";
+  if (input.includes("what can you do")) return "I chat and I grow. More updates soon!";
+  if (input.includes("bye")) return "See you soon!";
+  return "Hmm... not sure what that means 🤖.";
+}
+
+// Save chat
+function saveChat() {
+  const chatbox = document.getElementById("chatbox");
+  localStorage.setItem("chatHistory", chatbox.innerHTML);
+}
+
+// Clear chat
 function clearChat() {
   localStorage.removeItem("chatHistory");
   document.getElementById("chatbox").innerHTML = "";
 }
 
-// SAVE CHAT
-function saveChat() {
-  localStorage.setItem("chatHistory", document.getElementById("chatbox").innerHTML);
-}
-
-// BOT LOGIC
-function generateBotReply(input) {
-  input = input.toLowerCase();
-  if (input.includes("hello"))        return "Hi there!";
-  if (input.includes("how are you"))  return "I'm just code, but I'm running smoothly!";
-  if (input.includes("your name"))    return "I'm a simple bot Ace is building from scratch!";
-  if (input.includes("what can you do")) return "Right now, I can respond to basic messages. But I'm learning!";
-  if (input.includes("bye"))          return "Goodbye! Come chat with me again soon.";
-  return "Beep boop 🤖… no clue what that means. Try again, maybe slower? 😂";
-}
-
-// TIME HELPER
+// Get time
 function getCurrentTime() {
-  const n = new Date();
-  return `${n.getHours()}:${n.getMinutes().toString().padStart(2, "0")}`;
+  const now = new Date();
+  return now.getHours() + ":" + now.getMinutes().toString().padStart(2, "0");
 }
 
-// ASK FOR NAME
+// Ask name
 function askForName() {
   const name = prompt("Hi! What's your name?");
-  if (name && name.trim()) {
-    localStorage.setItem("chatUsername", name.trim());
-    const w = document.createElement("div");
-    w.className = "bot-message";
-    w.textContent = `Nice to meet you, ${name.trim()}! Ask me anything.`;
-    document.getElementById("chatbox").appendChild(w);
+  if (name && name.trim() !== "") {
+    const username = name.trim();
+    localStorage.setItem("chatUsername", username);
+
+    const welcome = document.createElement("div");
+    welcome.className = "bot-message";
+    welcome.textContent = `Nice to meet you, ${username}!`;
+
+    document.getElementById("chatbox").appendChild(welcome);
     saveChat();
   } else {
     askForName();
   }
 }
+
+// Expose to HTML
+window.sendMessage = sendMessage;
+window.clearChat = clearChat;
+window.toggleChat = toggleChat;
