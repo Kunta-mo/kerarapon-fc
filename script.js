@@ -68,9 +68,14 @@ function sendMessage() {
 }
 
 // Handle Enter key
-document.getElementById("userInput").addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    sendMessage();
+const inputField = document.getElementById("userInput");
+  if (inputField) {
+    inputField.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
+  }
   }
 });
 
@@ -128,3 +133,6 @@ function askForName() {
     askForName(); // Keep asking until name is entered
   }
 }
+// Expose key functions globally for inline button use
+window.sendMessage = sendMessage;
+window.clearChat = clearChat;
