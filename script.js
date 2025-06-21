@@ -88,9 +88,9 @@ document.addEventListener("keydown", function (e) {
 function generateBotReply(input) {
   const text = input.toLowerCase();
 
-  if (text.includes("hello")) return "Hi there!";
-  if (text.includes("how are you")) return "I'm just code, but I feel alive!";
-  if (text.includes("your name")) return "I'm a simple bot built by Ace.";
+  if (text.includes(" next game")) return "check fixtures !";
+  if (text.includes("venue")) return "check fixtures!";
+  if (text.includes("your name")) return " Ace.";
   if (text.includes("what can you do")) return "I can respond to your messages and keep you company!";
   if (text.includes("bye")) return "Goodbye, friend!";
 
