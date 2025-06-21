@@ -1,32 +1,25 @@
-// Handle navigation between sections
+// Wait until DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
+  // SECTION NAVIGATION (unchanged)
   const links = document.querySelectorAll("nav ul li a");
   const sections = document.querySelectorAll(".content-section");
   const defaultActive = document.querySelector('nav ul li a[data-section="home"]');
-
   if (defaultActive) defaultActive.classList.add("active");
-
   links.forEach(link => {
-    link.addEventListener("click", (e) => {
+    link.addEventListener("click", e => {
       e.preventDefault();
-      const target = link.getAttribute("data-section");
-
-      sections.forEach(section => {
-        section.style.display = section.id === target ? "block" : "none";
-      });
-
-      links.forEach(link => link.classList.remove("active"));
+      const target = link.dataset.section;
+      sections.forEach(s => s.style.display = s.id === target ? "block" : "none");
+      links.forEach(l => l.classList.remove("active"));
       link.classList.add("active");
     });
   });
 
-  // Restore chat
-  const savedChat = localStorage.getItem("chatHistory");
-  if (savedChat) {
-    document.getElementById("chatbox").innerHTML = savedChat;
-  }
+  // RESTORE CHAT HISTORY
+  const saved = localStorage.getItem("chatHistory");
+  if (saved) document.getElementById("chatbox").innerHTML = saved;
 
-  // Greeting
+  // GREET USER OR ASK FOR NAME
   let username = localStorage.getItem("chatUsername");
   if (!username) {
     askForName();
@@ -37,102 +30,80 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("chatbox").appendChild(greet);
     saveChat();
   }
+
+  // ENTER KEY SUPPORT
+  const inp = document.getElementById("userInput");
+  inp.addEventListener("keydown", e => {
+    if (e.key === "Enter") sendMessage();
+  });
+
+  // Expose to window for onclick=…
+  window.sendMessage = sendMessage;
+  window.clearChat   = clearChat;
 });
 
-// Handle sending messages
+// SEND MESSAGE
 function sendMessage() {
   const inputField = document.getElementById("userInput");
-  const userInput = inputField.value.trim();
+  const text = inputField.value.trim();
+  if (!text) return;
+
   const chatbox = document.getElementById("chatbox");
+  // user
+  const um = document.createElement("div");
+  um.className = "user-message";
+  um.textContent = `You (${getCurrentTime()}): ${text}`;
+  // bot
+  const bm = document.createElement("div");
+  bm.className = "bot-message";
+  bm.textContent = `Bot (${getCurrentTime()}): ${generateBotReply(text)}`;
 
-  if (!userInput) return;
-
-  const userMsg = document.createElement("div");
-  userMsg.textContent = `You (${getCurrentTime()}): ${userInput}`;
-  userMsg.className = "user-message";
-  userMsg.style.textAlign = "right";
-  userMsg.style.margin = "10px";
-
-  const botMsg = document.createElement("div");
-  botMsg.textContent = `Bot (${getCurrentTime()}): ${generateBotReply(userInput)}`;
-  botMsg.className = "bot-message";
-  botMsg.style.textAlign = "left";
-  botMsg.style.margin = "10px";
-
-  chatbox.appendChild(userMsg);
-  chatbox.appendChild(botMsg);
+  chatbox.appendChild(um);
+  chatbox.appendChild(bm);
   inputField.value = "";
-
   saveChat();
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// Handle Enter key
-const inputField = document.getElementById("userInput");
-  if (inputField) {
-    inputField.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        sendMessage();
-      }
-    });
-  }
-  }
-});
-
-// Generate bot reply
-function generateBotReply(input) {
-  input = input.toLowerCase();
-
-  if (input.includes("hello")) {
-    return "Hi there!";
-  } else if (input.includes("how are you")) {
-    return "I'm just code, but I'm running smoothly!";
-  } else if (input.includes("your name")) {
-    return "I'm a simple bot Ace is building from scratch!";
-  } else if (input.includes("what can you do")) {
-    return "Right now, I can respond to basic messages. But I'm learning!";
-  } else if (input.includes("bye")) {
-    return "Goodbye! Come chat with me again soon.";
-  } else {
-    return "Beep boop 🤖… no clue what that means. Try again, maybe slower? 😂";
-  }
-}
-
-// Save chat to localStorage
-function saveChat() {
-  const chatbox = document.getElementById("chatbox");
-  localStorage.setItem("chatHistory", chatbox.innerHTML);
-}
-
-// Clear chat history
+// CLEAR CHAT
 function clearChat() {
   localStorage.removeItem("chatHistory");
   document.getElementById("chatbox").innerHTML = "";
 }
 
-// Get formatted time
-function getCurrentTime() {
-  const now = new Date();
-  return now.getHours() + ":" + now.getMinutes().toString().padStart(2, "0");
+// SAVE CHAT
+function saveChat() {
+  localStorage.setItem("chatHistory", document.getElementById("chatbox").innerHTML);
 }
 
-// Ask for user's name
+// BOT LOGIC
+function generateBotReply(input) {
+  input = input.toLowerCase();
+  if (input.includes("hello"))        return "Hi there!";
+  if (input.includes("how are you"))  return "I'm just code, but I'm running smoothly!";
+  if (input.includes("your name"))    return "I'm a simple bot Ace is building from scratch!";
+  if (input.includes("what can you do")) return "Right now, I can respond to basic messages. But I'm learning!";
+  if (input.includes("bye"))          return "Goodbye! Come chat with me again soon.";
+  return "Beep boop 🤖… no clue what that means. Try again, maybe slower? 😂";
+}
+
+// TIME HELPER
+function getCurrentTime() {
+  const n = new Date();
+  return `${n.getHours()}:${n.getMinutes().toString().padStart(2, "0")}`;
+}
+
+// ASK FOR NAME
 function askForName() {
   const name = prompt("Hi! What's your name?");
-  if (name && name.trim() !== "") {
-    const username = name.trim();
-    localStorage.setItem("chatUsername", username);
-
-    const welcome = document.createElement("div");
-    welcome.className = "bot-message";
-    welcome.textContent = `Nice to meet you, ${username}! Ask me anything.`;
-
-    document.getElementById("chatbox").appendChild(welcome);
+  if (name && name.trim()) {
+    localStorage.setItem("chatUsername", name.trim());
+    const w = document.createElement("div");
+    w.className = "bot-message";
+    w.textContent = `Nice to meet you, ${name.trim()}! Ask me anything.`;
+    document.getElementById("chatbox").appendChild(w);
     saveChat();
   } else {
-    askForName(); // Keep asking until name is entered
+    askForName();
   }
 }
-// Expose key functions globally for inline button use
-window.sendMessage = sendMessage;
-window.clearChat = clearChat;
