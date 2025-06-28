@@ -88,14 +88,33 @@ document.addEventListener("keydown", function (e) {
 function generateBotReply(input) {
   const text = input.toLowerCase();
 
-  if (text.includes(" Next game")) return "check fixtures !";
-  if (text.includes("venue")) return "check fixtures!";
-  if (text.includes("your name")) return " Ace.";
-  if (text.includes("what can you do")) return "I can respond to your messages and keep you company!";
+  // Step 1: Smart routing map
+  const routeMap = {
+    "gallery": "/media/gallery",
+    "players": "/team/players",
+    "fixtures": "/fixtures",
+    "contact": "/contact",
+    "home": "/",
+    "about": "/about"
+  };
+
+  // Step 2: Direct keyword-based matching
+  for (const keyword in routeMap) {
+    if (text.includes(keyword)) {
+      return `Here's what you need: <a href="${routeMap[keyword]}" target="_blank">${keyword.toUpperCase()} Page</a>`;
+    }
+  }
+
+  // Step 3: Basic fixed replies
+  if (text.includes("next game")) return "Check <a href='/fixtures'>fixtures</a>!";
+  if (text.includes("venue")) return "Check <a href='/fixtures'>fixtures</a>!";
+  if (text.includes("your name")) return "Ace.";
+  if (text.includes("what can you do")) return "I can respond to your messages, give you links, and keep you company!";
   if (text.includes("bye")) return "Goodbye, friend!";
 
-  return "🤖 I'm not sure how to respond to that. Try something else?";
-}
+  // Step 4: Fallback
+  return "🤖 I'm not sure how to respond to that. Try asking about pages like 'gallery', 'players', or 'fixtures'.";
+    }
 
 // Save chat history
 function saveChat() {
