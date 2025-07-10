@@ -33,17 +33,17 @@ body {
 }
 
 .splash-logo {
-  max-width: 160px;
+  max-width: 200px;
   margin-bottom: 10px;
   animation: popIn 1s ease-out;
 }
 
 .splash-motto {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: #ff0000;
   font-style: italic;
   letter-spacing: 1px;
-  animation: fadeIn 1.2s ease-out;
+  animation: fadeIn 2s ease-out;
 }
 
 @keyframes popIn {
