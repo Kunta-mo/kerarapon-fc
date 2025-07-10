@@ -98,20 +98,37 @@ function generateBotReply(input) {
     "about": "/about"
   };
 
-  // Step 2: Direct keyword-based matching
-  for (const keyword in routeMap) {
-    if (text.includes(keyword)) {
-      return `Here's what you need: <a href="${routeMap[keyword]}" target="_blank">${keyword.toUpperCase()} Page</a>`;
-    }
+// Step 2: Greetings
+  const greetings = ["hi", "hello", "hey", "yo", "good morning", "good evening"];
+  if (greetings.some(greet => text.includes(greet))) {
+    return "Hey there! 👋 What would you like to know? Try asking about fixtures, players, or gallery!";
   }
 
-  // Step 3: Basic fixed replies
-  if (text.includes("next game")) return "Check <a href='/fixtures'>fixtures</a>!";
-  if (text.includes("venue")) return "Check <a href='/fixtures'>fixtures</a>!";
-  if (text.includes("your name")) return "Ace.";
-  if (text.includes("what can you do")) return "I can respond to your messages, give you links, and keep you company!";
-  if (text.includes("bye")) return "Goodbye, friend!";
+  // Step 3: FAQ-style matches with links
+  if (text.includes("next match") || text.includes("fixtures") || text.includes("schedule")) {
+    return `You can view all upcoming matches on the <a href="${routeMap.fixtures}" target="_blank">Fixtures Page</a>.`;
+  }
 
+  if (text.includes("venue") || text.includes("where is the match") || text.includes("play at")) {
+    return `Matches are usually at our home ground. Check the <a href="${routeMap.fixtures}" target="_blank">Fixtures Page</a> for details.`;
+  }
+
+  if (text.includes("players") || text.includes("team") || text.includes("squad")) {
+    return `Meet the team here: <a href="${routeMap.players}" target="_blank">Players Page</a>.`;
+  }
+
+  if (text.includes("photos") || text.includes("gallery") || text.includes("pictures")) {
+    return `Check out our latest pictures in the <a href="${routeMap.gallery}" target="_blank">Gallery</a>.`;
+  }
+
+  // Step 4: Small talk
+  if (text.includes("your name")) return "You can call me Ace 🤖.";
+  if (text.includes("what can you do")) return "I can guide you to fixtures, players, and more! Try asking me something.";
+  if (text.includes("bye")) return "Goodbye, friend! Hope to see you again soon.";
+
+  // Step 5: Fallback
+  return "I'm not sure how to respond to that. You can ask me about fixtures, players, photos, or where we play.";
+}
 
 // Save chat history
 function saveChat() {
