@@ -213,3 +213,10 @@ function askForName() {
 // Expose functions for inline buttons
 window.sendMessage = sendMessage;
 window.clearChat = clearChat;
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const splash = document.getElementById("splash-screen");
+    splash.style.opacity = "0";
+    setTimeout(() => splash.style.display = "none", 1000);
+  }, 2500); // shows splash for 2.5 seconds
+});
