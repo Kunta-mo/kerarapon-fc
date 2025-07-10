@@ -3,6 +3,46 @@
   padding: 0;
   box-sizing: border-box;
 }
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  color: #fff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Oswald', sans-serif;
+  transition: opacity 1s ease;
+}
+
+.splash-logo {
+  max-width: 160px;
+  margin-bottom: 10px;
+  animation: popIn 1s ease-out;
+}
+
+.splash-motto {
+  font-size: 1.5rem;
+  color: #ff0000; /* Red */
+  font-style: italic;
+  letter-spacing: 1px;
+  animation: fadeIn 1.2s ease-out;
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 body {
   font-family: 'Segoe UI', 'Roboto', 'Oswald', sans-serif;
