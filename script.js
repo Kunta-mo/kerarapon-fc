@@ -87,6 +87,42 @@ document.addEventListener("keydown", function (e) {
 // Generate bot response
 function generateBotReply(input) {
   const text = input.toLowerCase();
+  
+ // 🧠 Simple AI: Intent detection map
+  const intentMap = [
+    {
+      keywords: ["photos", "gallery", "pictures"],
+      section: "gallery",
+      reply: "Check out our photo gallery 📸"
+    },
+    {
+      keywords: ["players", "team", "squad", "who plays"],
+      section: "team",
+      reply: "Here’s our team lineup 👥"
+    },
+    {
+      keywords: ["fixtures", "next match", "schedule", "games"],
+      section: "fixtures",
+      reply: "Here are the upcoming fixtures 📅"
+    },
+    {
+      keywords: ["venue", "where do you play", "where is the match"],
+      section: "fixtures",
+      reply: "We usually play at our home ground. Fixture details are below 👇"
+    },
+    {
+      keywords: ["contact", "reach", "talk to you"],
+      section: "contact",
+      reply: "Here’s our contact info ✉️"
+    }
+  ];
+
+  for (const intent of intentMap) {
+    if (intent.keywords.some(word => text.includes(word))) {
+      document.querySelector(`a[data-section="${intent.section}"]`)?.click();
+      return intent.reply;
+    }
+  }
 
   // Step 1: Smart routing map
   const routeMap = {
