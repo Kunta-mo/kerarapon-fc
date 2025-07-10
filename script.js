@@ -104,22 +104,30 @@ function generateBotReply(input) {
     return "Hey there! 👋 What would you like to know? Try asking about fixtures, players, or gallery!";
   }
 
-  // Step 3: FAQ-style matches with links
-  if (text.includes("next match") || text.includes("fixtures") || text.includes("schedule")) {
-    return `You can view all upcoming matches on the <a href="${routeMap.fixtures}" target="_blank">Fixtures Page</a>.`;
+ if (text.includes("fixtures") || text.includes("schedule") || text.includes("next match")) {
+    const tab = document.querySelector('a[data-section="fixtures"]');
+    if (tab) tab.click();
+    return "Here are the upcoming fixtures 📅";
   }
 
-  if (text.includes("venue") || text.includes("where is the match") || text.includes("play at")) {
-    return `Matches are usually at our home ground. Check the <a href="${routeMap.fixtures}" target="_blank">Fixtures Page</a> for details.`;
+  if (text.includes("venue") || text.includes("where") && text.includes("match")) {
+    const tab = document.querySelector('a[data-section="fixtures"]');
+    if (tab) tab.click();
+    return "We usually play at our home ground. Check the fixture details below 👇";
   }
 
   if (text.includes("players") || text.includes("team") || text.includes("squad")) {
-    return `Meet the team here: <a href="${routeMap.players}" target="_blank">Players Page</a>.`;
+    const tab = document.querySelector('a[data-section="players"]');
+    if (tab) tab.click();
+    return "Here’s the current team lineup 👥";
   }
 
   if (text.includes("photos") || text.includes("gallery") || text.includes("pictures")) {
-    return `Check out our latest pictures in the <a href="${routeMap.gallery}" target="_blank">Gallery</a>.`;
+    const tab = document.querySelector('a[data-section="gallery"]');
+    if (tab) tab.click();
+    return "Here’s our latest photos 📸";
   }
+
 
   // Step 4: Small talk
   if (text.includes("your name")) return "You can call me Ace 🤖.";
