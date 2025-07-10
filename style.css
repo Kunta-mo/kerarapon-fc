@@ -232,15 +232,19 @@ nav ul li a.active {
 }
 
 .user-message {
-  background: #d0e7ff;
-  color: #003366;
+  background: #d4f9d4; /* Light green background */
+  color: #084c0f;       /* Deep green text */
   align-self: flex-end;
+  border-left: 4px solid #28a745;
 }
 
 .bot-message {
-  background: #dcf5dc;
-  color: #145c2d;
+  background: #ffe5e5;  /* Light red background */
+  color: #8b0000;       /* Dark red text */
   align-self: flex-start;
+  border-left: 4px solid #ff0000;
+
+
 }
 
 /* Utility */
