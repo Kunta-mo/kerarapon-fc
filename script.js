@@ -213,6 +213,8 @@ function askForName() {
 // Expose functions for inline buttons
 window.sendMessage = sendMessage;
 window.clearChat = clearChat;
+
+
 window.addEventListener("load", () => {
   setTimeout(() => {
     const splash = document.getElementById("splash-screen");
