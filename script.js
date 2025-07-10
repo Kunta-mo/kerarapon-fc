@@ -1,4 +1,3 @@
-// Runs when page is ready
 document.addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll("nav ul li a");
   const sections = document.querySelectorAll(".content-section");
@@ -24,97 +23,69 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Toggle chat visibility
-  if (chatToggle && chatContainer) {
-    chatToggle.addEventListener("click", () => {
-      chatContainer.style.display = 
-        chatContainer.style.display === "none" || chatContainer.style.display === "" 
-          ? "flex" 
-          : "none";
-    });
-  }
+  chatToggle?.addEventListener("click", () => {
+    const current = chatContainer.style.display;
+    chatContainer.style.display = (current === "none" || !current) ? "flex" : "none";
+  });
 
   // Load chat history
   const savedChat = localStorage.getItem("chatHistory");
-  if (savedChat) {
-    document.getElementById("chatbox").innerHTML = savedChat;
+  if (savedChat) document.getElementById("chatbox").innerHTML = savedChat;
+
+  // Greet returning user or ask name
+  const username = localStorage.getItem("chatUsername");
+  if (username) {
+    appendBotMessage(`Welcome back, ${username}!`);
+  } else {
+    askForName();
   }
 
-  // Ask for username if not set
-  let username = localStorage.getItem("chatUsername");
-  if (!username) {
-    askForName();
-  } else {
-    const greet = document.createElement("div");
-    greet.className = "bot-message";
-    greet.textContent = `Welcome back, ${username}!`;
-    document.getElementById("chatbox").appendChild(greet);
-    saveChat();
-  }
+  saveChat();
 });
 
 // Send message
 function sendMessage() {
-  const inputField = document.getElementById("userInput");
-  const chatbox = document.getElementById("chatbox");
-  const userInput = inputField.value.trim();
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+  if (!text) return;
 
-  if (!userInput) return;
-
-  const userMsg = document.createElement("div");
-  userMsg.className = "user-message";
-  userMsg.textContent = `You (${getCurrentTime()}): ${userInput}`;
-  chatbox.appendChild(userMsg);
-
-  const botMsg = document.createElement("div");
-  botMsg.className = "bot-message";
-  botMsg.textContent = `Bot (${getCurrentTime()}): ${generateBotReply(userInput)}`;
-  chatbox.appendChild(botMsg);
-
-  inputField.value = "";
-  chatbox.scrollTop = chatbox.scrollHeight;
-
+  appendUserMessage(text);
+  appendBotMessage(generateBotReply(text));
+  input.value = "";
+  document.getElementById("chatbox").scrollTop = document.getElementById("chatbox").scrollHeight;
   saveChat();
 }
 
-// Enter key to send message
-document.addEventListener("keydown", function (e) {
-  const inputField = document.getElementById("userInput");
-  if (e.key === "Enter" && document.activeElement === inputField) {
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && document.activeElement.id === "userInput") {
     sendMessage();
   }
 });
 
-// Generate bot response
+// Message rendering
+function appendUserMessage(text) {
+  const msg = document.createElement("div");
+  msg.className = "user-message";
+  msg.textContent = `You (${getCurrentTime()}): ${text}`;
+  document.getElementById("chatbox").appendChild(msg);
+}
+
+function appendBotMessage(text) {
+  const msg = document.createElement("div");
+  msg.className = "bot-message";
+  msg.textContent = `Bot (${getCurrentTime()}): ${text}`;
+  document.getElementById("chatbox").appendChild(msg);
+}
+
+// Bot reply logic
 function generateBotReply(input) {
   const text = input.toLowerCase();
-  
- // 🧠 Simple AI: Intent detection map
   const intentMap = [
-    {
-      keywords: ["photos", "gallery", "pictures"],
-      section: "gallery",
-      reply: "Check out our photo gallery 📸"
-    },
-    {
-      keywords: ["players", "team", "squad", "who plays"],
-      section: "team",
-      reply: "Here’s our team lineup 👥"
-    },
-    {
-      keywords: ["fixtures", "next match", "schedule", "games"],
-      section: "fixtures",
-      reply: "Here are the upcoming fixtures 📅"
-    },
-    {
-      keywords: ["venue", "where do you play", "where is the match"],
-      section: "fixtures",
-      reply: "We usually play at our home ground. Fixture details are below 👇"
-    },
-    {
-      keywords: ["contact", "reach", "talk to you"],
-      section: "contact",
-      reply: "Here’s our contact info ✉️"
-    }
+    { keywords: ["photos", "gallery", "pictures"], section: "gallery", reply: "Check out our photo gallery 📸" },
+    { keywords: ["players", "team", "squad", "who plays"], section: "team", reply: "Here’s our team lineup 👥" },
+    { keywords: ["fixtures", "next match", "schedule", "games"], section: "fixtures", reply: "Here are the upcoming fixtures 📅" },
+    { keywords: ["venue", "where do you play", "where is the match"], section: "fixtures", reply: "We play at Kerarapon Primary Grounds 🏟️" },
+    { keywords: ["contact", "reach", "talk to you"], section: "contact", reply: "Here’s our contact info ✉️" }
   ];
 
   for (const intent of intentMap) {
@@ -124,101 +95,54 @@ function generateBotReply(input) {
     }
   }
 
-  // Step 1: Smart routing map
-  const routeMap = {
-    "gallery": "/media/gallery",
-    "players": "/team/players",
-    "fixtures": "/fixtures",
-    "contact": "/contact",
-    "home": "/",
-    "about": "/about"
-  };
-
-// Step 2: Greetings
   const greetings = ["hi", "hello", "hey", "yo", "good morning", "good evening"];
   if (greetings.some(greet => text.includes(greet))) {
-    return "Hey there! 👋 What would you like to know? Try asking about fixtures, players, or gallery!";
+    return "Hey! 👋 Ask about fixtures, players, photos, or contact.";
   }
 
- if (text.includes("fixtures") || text.includes("schedule") || text.includes("next match")) {
-    const tab = document.querySelector('a[data-section="fixtures"]');
-    if (tab) tab.click();
-    return "Here are the upcoming fixtures 📅";
-  }
-
-  if (text.includes("venue") || text.includes("where") && text.includes("match")) {
-    const tab = document.querySelector('a[data-section="fixtures"]');
-    if (tab) tab.click();
-    return "We usually play at our home ground. Check the fixture details below 👇";
-  }
-
-  if (text.includes("players") || text.includes("team") || text.includes("squad")) {
-    const tab = document.querySelector('a[data-section="players"]');
-    if (tab) tab.click();
-    return "Here’s the current team lineup 👥";
-  }
-
-  if (text.includes("photos") || text.includes("gallery") || text.includes("pictures")) {
-    const tab = document.querySelector('a[data-section="gallery"]');
-    if (tab) tab.click();
-    return "Here’s our latest photos 📸";
-  }
-
-
-  // Step 4: Small talk
   if (text.includes("your name")) return "You can call me Ace 🤖.";
-  if (text.includes("what can you do")) return "I can guide you to fixtures, players, and more! Try asking me something.";
-  if (text.includes("bye")) return "Goodbye, friend! Hope to see you again soon.";
+  if (text.includes("what can you do")) return "I can show you fixtures, team info, and more.";
+  if (text.includes("bye")) return "Goodbye! 👋 See you soon.";
 
-  // Step 5: Fallback
-  return "I'm not sure how to respond to that. You can ask me about fixtures, players, photos, or where we play.";
+  return "Hmm... I didn’t catch that. Try asking about fixtures, team, or gallery.";
 }
 
-// Save chat history
+// Save and restore
 function saveChat() {
-  const chatbox = document.getElementById("chatbox");
-  localStorage.setItem("chatHistory", chatbox.innerHTML);
+  localStorage.setItem("chatHistory", document.getElementById("chatbox").innerHTML);
 }
 
-// Clear chat
 function clearChat() {
   document.getElementById("chatbox").innerHTML = "";
   localStorage.removeItem("chatHistory");
 }
 
-// Get current time
-function getCurrentTime() {
-  const now = new Date();
-  return now.getHours() + ":" + now.getMinutes().toString().padStart(2, "0");
-}
+// Splash
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splash-screen");
+  setTimeout(() => {
+    splash.style.opacity = "0";
+    setTimeout(() => splash.style.display = "none", 1000);
+  }, 2500);
+});
 
-// Ask for user name
+// Ask name
 function askForName() {
   const name = prompt("Hi! What's your name?");
-  if (name && name.trim() !== "") {
+  if (name && name.trim()) {
     const username = name.trim();
     localStorage.setItem("chatUsername", username);
-
-    const welcome = document.createElement("div");
-    welcome.className = "bot-message";
-    welcome.textContent = `Nice to meet you, ${username}! Ask me anything.`;
-
-    document.getElementById("chatbox").appendChild(welcome);
-    saveChat();
+    appendBotMessage(`Nice to meet you, ${username}! Ask me anything.`);
   } else {
-    askForName(); // Try again if blank
+    askForName(); // retry
   }
 }
 
-// Expose functions for inline buttons
+// Helpers
+function getCurrentTime() {
+  const now = new Date();
+  return `${now.getHours()}:${now.getMinutes().toString().padStart(2, "0")}`;
+}
+
 window.sendMessage = sendMessage;
 window.clearChat = clearChat;
-
-
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const splash = document.getElementById("splash-screen");
-    splash.style.opacity = "0";
-    setTimeout(() => splash.style.display = "none", 1000);
-  }, 2500); // shows splash for 2.5 seconds
-});
