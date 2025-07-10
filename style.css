@@ -209,7 +209,7 @@ nav ul li a.active {
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 10px;
-  background: #f9f9f9;
+  background: #111111;
 }
 #chatbot-container input[type="text"] {
   width: 100%;
